@@ -794,4 +794,10 @@ if __name__ == '__main__':
     logger.info(f"🚀 Starting QUIZDOM API server on port {port}")
     logger.info(f"🎯 Debug mode: {debug}")
     
-    app.run(host='0.0.0.0', port=port, debug=debug)
+    print(f"🌐 QUIZDOM is accessible at:")
+    print(f"   • Local: http://localhost:{port}")
+    print(f"   • Network: http://0.0.0.0:{port}")
+    print(f"   • All interfaces: http://127.0.0.1:{port}")
+    print("=" * 50)
+    
+    app.run(host='0.0.0.0', port=port, debug=debug, threaded=True)

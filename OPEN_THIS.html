@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Access QUIZDOM</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #e2e8f0;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: rgba(26, 35, 53, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(110, 231, 183, 0.5);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            max-width: 600px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            font-size: 3rem;
+            background: linear-gradient(45deg, #6ee7b7, #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+        
+        .access-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #6ee7b7, #34d399);
+            color: #0f172a;
+            padding: 1rem 2rem;
+            border-radius: 15px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin: 1rem 0;
+            transition: transform 0.3s ease;
+        }
+        
+        .access-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(110, 231, 183, 0.3);
+        }
+        
+        .instructions {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            text-align: left;
+        }
+        
+        .step {
+            margin: 1rem 0;
+            padding: 0.5rem;
+            border-left: 3px solid #6ee7b7;
+            padding-left: 1rem;
+        }
+        
+        code {
+            background: rgba(110, 231, 183, 0.2);
+            padding: 0.3rem 0.6rem;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 QUIZDOM</h1>
+        <p style="font-size: 1.2rem; margin-bottom: 2rem;">The Ultimate Knowledge Challenge Platform</p>
+        
+        <a href="http://localhost:5000" class="access-link" onclick="testConnection()">
+            🚀 Launch QUIZDOM
+        </a>
+        
+        <div class="instructions">
+            <h3>📋 How to Access QUIZDOM:</h3>
+            
+            <div class="step">
+                <strong>Option 1:</strong> Click the "Launch QUIZDOM" button above
+            </div>
+            
+            <div class="step">
+                <strong>Option 2:</strong> Open your browser and go to:<br>
+                <code>http://localhost:5000</code>
+            </div>
+            
+            <div class="step">
+                <strong>Option 3:</strong> If you're on a remote server, try:<br>
+                <code>http://127.0.0.1:5000</code>
+            </div>
+            
+            <div class="step">
+                <strong>Option 4:</strong> Copy and paste this URL in your browser:<br>
+                <code id="fullUrl">http://localhost:5000</code>
+                <button onclick="copyUrl()" style="margin-left: 10px; padding: 5px 10px; background: #6ee7b7; border: none; border-radius: 5px; color: #0f172a; cursor: pointer;">Copy</button>
+            </div>
+        </div>
+        
+        <div style="margin-top: 2rem;">
+            <h4>🔧 If it's not working:</h4>
+            <p>Make sure the Flask application is running. You should see a terminal window with "QUIZDOM API is running" message.</p>
+            <p>If not, run this command in your terminal:</p>
+            <code>cd /workspace && source venv/bin/activate && python app.py</code>
+        </div>
+    </div>
+
+    <script>
+        function testConnection() {
+            // Try to test if the server is reachable
+            fetch('http://localhost:5000/api/health')
+                .then(response => {
+                    if (response.ok) {
+                        window.open('http://localhost:5000', '_blank');
+                    } else {
+                        alert('⚠️ QUIZDOM server is not responding. Please make sure it\'s running!');
+                    }
+                })
+                .catch(error => {
+                    alert('⚠️ Cannot connect to QUIZDOM. Please check if the server is running on port 5000.');
+                });
+        }
+        
+        function copyUrl() {
+            const url = document.getElementById('fullUrl').textContent;
+            navigator.clipboard.writeText(url).then(() => {
+                alert('✅ URL copied to clipboard!');
+            });
+        }
+        
+        // Auto-detect current host and update URLs
+        window.onload = function() {
+            const currentHost = window.location.hostname;
+            if (currentHost !== 'localhost' && currentHost !== '127.0.0.1') {
+                const newUrl = `http://${currentHost}:5000`;
+                document.getElementById('fullUrl').textContent = newUrl;
+                document.querySelector('.access-link').href = newUrl;
+            }
+        }
+    </script>
+</body>
+</html>
