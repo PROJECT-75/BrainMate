@@ -84,8 +84,8 @@
         <h1>🎯 QUIZDOM</h1>
         <p style="font-size: 1.2rem; margin-bottom: 2rem;">The Ultimate Knowledge Challenge Platform</p>
         
-        <a href="http://localhost:5000" class="access-link" onclick="testConnection()">
-            🚀 Launch QUIZDOM
+        <a href="https://localhost:5000" class="access-link" onclick="testConnection()">
+            🔒 Launch QUIZDOM (HTTPS)
         </a>
         
         <div class="instructions">
@@ -97,17 +97,17 @@
             
             <div class="step">
                 <strong>Option 2:</strong> Open your browser and go to:<br>
-                <code>http://localhost:5000</code>
+                <code>https://localhost:5000</code>
             </div>
             
             <div class="step">
                 <strong>Option 3:</strong> If you're on a remote server, try:<br>
-                <code>http://127.0.0.1:5000</code>
+                <code>https://127.0.0.1:5000</code>
             </div>
             
             <div class="step">
                 <strong>Option 4:</strong> Copy and paste this URL in your browser:<br>
-                <code id="fullUrl">http://localhost:5000</code>
+                <code id="fullUrl">https://localhost:5000</code>
                 <button onclick="copyUrl()" style="margin-left: 10px; padding: 5px 10px; background: #6ee7b7; border: none; border-radius: 5px; color: #0f172a; cursor: pointer;">Copy</button>
             </div>
         </div>
@@ -123,10 +123,10 @@
     <script>
         function testConnection() {
             // Try to test if the server is reachable
-            fetch('http://localhost:5000/api/health')
+            fetch('https://localhost:5000/api/health')
                 .then(response => {
                     if (response.ok) {
-                        window.open('http://localhost:5000', '_blank');
+                        window.open('https://localhost:5000', '_blank');
                     } else {
                         alert('⚠️ QUIZDOM server is not responding. Please make sure it\'s running!');
                     }
@@ -147,7 +147,7 @@
         window.onload = function() {
             const currentHost = window.location.hostname;
             if (currentHost !== 'localhost' && currentHost !== '127.0.0.1') {
-                const newUrl = `http://${currentHost}:5000`;
+                const newUrl = `https://${currentHost}:5000`;
                 document.getElementById('fullUrl').textContent = newUrl;
                 document.querySelector('.access-link').href = newUrl;
             }

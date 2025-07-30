@@ -794,10 +794,18 @@ if __name__ == '__main__':
     logger.info(f"🚀 Starting QUIZDOM API server on port {port}")
     logger.info(f"🎯 Debug mode: {debug}")
     
-    print(f"🌐 QUIZDOM is accessible at:")
-    print(f"   • Local: http://localhost:{port}")
-    print(f"   • Network: http://0.0.0.0:{port}")
-    print(f"   • All interfaces: http://127.0.0.1:{port}")
+    print(f"🔒 QUIZDOM is accessible at (HTTPS):")
+    print(f"   • Local: https://localhost:{port}")
+    print(f"   • Network: https://127.0.0.1:{port}")
+    print(f"   • All interfaces: https://0.0.0.0:{port}")
+    print("=" * 50)
+    print("🛡️  Using HTTPS with self-signed certificate")
+    print("📌 Your browser may show a security warning - click 'Advanced' and 'Proceed'")
     print("=" * 50)
     
-    app.run(host='0.0.0.0', port=port, debug=debug, threaded=True)
+    # Create SSL context
+    import ssl
+    context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+    context.load_cert_chain('cert.pem', 'key.pem')
+    
+    app.run(host='0.0.0.0', port=port, debug=debug, threaded=True, ssl_context=context)
