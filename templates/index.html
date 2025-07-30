@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QUIZDOM - The Ultimate Knowledge Challenge</title>
+    <title>QUIZDOM - The Ultimate Knowledge Challenge Platform</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&family=Press+Start+2P&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -595,13 +595,13 @@
         <div id="main-menu" class="screen active">
             <div class="header">
                 <h1 class="logo">QUIZDOM</h1>
-                <p class="tagline">The Ultimate Knowledge Challenge</p>
+                <p class="tagline">Master Every Subject, Conquer Every Challenge</p>
             </div>
 
             <div class="glass-panel">
                 <h2 style="text-align: center; margin-bottom: 2rem; font-size: 2rem;">Welcome to QUIZDOM</h2>
                 <p style="text-align: center; color: var(--next-gen-color-secondary); margin-bottom: 2rem; font-size: 1.1rem;">
-                    Test your knowledge across multiple categories and difficulty levels. Challenge yourself and see how high you can score!
+                    Enter the ultimate knowledge arena where intellect meets competition. Choose from diverse categories spanning Science, History, Technology, Arts, and more. Test your limits across three difficulty levels and compete with quiz masters worldwide. Are you ready to claim your place in the QUIZDOM leaderboard?
                 </p>
                 
                 <div class="nav-buttons">
@@ -816,18 +816,20 @@
                 
                 <div style="max-width: 600px; margin: 0 auto; text-align: center;">
                     <p style="margin-bottom: 1.5rem; font-size: 1.1rem; color: var(--next-gen-color-secondary);">
-                        QUIZDOM is the ultimate knowledge challenge platform, designed to test your expertise across various subjects and difficulty levels.
+                        QUIZDOM is an advanced quiz platform that transforms learning into an engaging competitive experience. Built with cutting-edge web technologies, it offers a seamless interface for knowledge testing across multiple domains. Our intelligent scoring system adapts to your performance, while real-time leaderboards fuel healthy competition among quiz enthusiasts worldwide.
                     </p>
                     
                     <div style="margin: 2rem 0;">
                         <h3 style="color: var(--next-gen-accent); margin-bottom: 1rem;">Features</h3>
                         <ul style="text-align: left; color: var(--next-gen-color-secondary); line-height: 1.6;">
-                            <li>Multiple categories covering diverse topics</li>
-                            <li>Three difficulty levels for every skill level</li>
-                            <li>Real-time scoring and performance tracking</li>
-                            <li>Interactive timer for added challenge</li>
-                            <li>Global leaderboards to compete with others</li>
-                            <li>Customizable quiz settings</li>
+                            <li>🧠 10+ Knowledge Categories: Science, History, Technology, Arts, Sports, Geography</li>
+                            <li>⚡ Three Difficulty Levels: Beginner (5pts), Intermediate (10pts), Expert (15pts)</li>
+                            <li>📊 Advanced Analytics: Real-time performance tracking and progress insights</li>
+                            <li>⏱️ Adaptive Timer System: Configurable time limits for enhanced challenge</li>
+                            <li>🏆 Global Leaderboards: Compete with quiz masters from around the world</li>
+                            <li>🎨 Modern UI/UX: Glassmorphism design with smooth animations</li>
+                            <li>📱 Fully Responsive: Perfect experience across all devices</li>
+                            <li>🔧 Customizable Settings: Personalize your quiz experience</li>
                         </ul>
                     </div>
                     
@@ -846,6 +848,6 @@
         </div>
     </div>
 
-    <script src="app.js"></script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>
