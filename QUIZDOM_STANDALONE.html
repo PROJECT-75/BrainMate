@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUIZDOM - The Ultimate Knowledge Challenge Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            /* NEXT-GEN THEME COLORS */
+            --next-gen-bg-start: #0f172a;
+            --next-gen-bg-end: #1e293b;
+            --next-gen-color-primary: #e2e8f0;
+            --next-gen-color-secondary: #94a3b8;
+            --next-gen-accent: #6ee7b7;
+            --next-gen-shadow-glow: #6ee7b7;
+            --next-gen-border: #334155;
+            --next-gen-glass-bg: rgba(26, 35, 53, 0.7);
+            --next-gen-glass-border: rgba(110, 231, 183, 0.5);
+            --next-gen-button-bg-start: #334155;
+            --next-gen-button-bg-end: #475569;
+            --next-gen-button-hover-start: #6ee7b7;
+            --next-gen-button-hover-end: #34d399;
+            --next-gen-score-start: #94a3b8;
+            --next-gen-score-end: #6ee7b7;
+            --next-gen-error-color: #ef4444;
+            --next-gen-success-color: #22c55e;
+            --next-gen-warning-color: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(135deg, var(--next-gen-bg-start), var(--next-gen-bg-end));
+            color: var(--next-gen-color-primary);
+            overflow-x: hidden;
+            position: relative;
+            transition: background 0.5s ease-in-out, color 0.3s ease;
+            perspective: 1000px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(110, 231, 183, 0.1), transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+            animation: subtleOrbitalGlow 15s infinite alternate ease-in-out;
+        }
+
+        @keyframes subtleOrbitalGlow {
+            0% { transform: scale(1); opacity: 0.1; }
+            100% { transform: scale(1.1); opacity: 0.15; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header Styles */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 2rem 0;
+        }
+
+        .logo {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 3rem;
+            background: linear-gradient(45deg, var(--next-gen-accent), #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px var(--next-gen-shadow-glow);
+            margin-bottom: 1rem;
+            animation: logoGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes logoGlow {
+            0% { filter: drop-shadow(0 0 10px var(--next-gen-accent)); }
+            100% { filter: drop-shadow(0 0 20px var(--next-gen-accent)); }
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--next-gen-color-secondary);
+            font-weight: 300;
+        }
+
+        /* Glass Panel Styles */
+        .glass-panel {
+            background: var(--next-gen-glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--next-gen-glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 1rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(110, 231, 183, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .glass-panel:hover::before {
+            left: 100%;
+        }
+
+        .glass-panel:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        /* Navigation Buttons */
+        .nav-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, var(--next-gen-button-bg-start), var(--next-gen-button-bg-end));
+            border: none;
+            border-radius: 15px;
+            padding: 1rem 2rem;
+            color: var(--next-gen-color-primary);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--next-gen-border);
+        }
+
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--next-gen-button-hover-start), var(--next-gen-button-hover-end));
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .nav-btn:hover::before {
+            left: 0;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(110, 231, 183, 0.3);
+            color: var(--next-gen-bg-start);
+        }
+
+        .nav-btn i {
+            margin-right: 0.5rem;
+        }
+
+        /* Category Cards */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .category-card {
+            background: var(--next-gen-glass-bg);
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--next-gen-border);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(110, 231, 183, 0.2), rgba(52, 211, 153, 0.2));
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .category-card:hover::before {
+            left: 0;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--next-gen-accent);
+            box-shadow: 0 10px 30px rgba(110, 231, 183, 0.3);
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            color: var(--next-gen-accent);
+            margin-bottom: 1rem;
+        }
+
+        .category-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .category-description {
+            color: var(--next-gen-color-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Screen Management */
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Notification Styles */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 2rem;
+            background: var(--next-gen-glass-bg);
+            border: 1px solid var(--next-gen-border);
+            border-radius: 10px;
+            color: var(--next-gen-color-primary);
+            font-weight: 600;
+            z-index: 10000;
+            animation: slideIn 0.3s ease-out;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes slideIn {
+            0% { transform: translateX(100%); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Main Menu Screen -->
+        <div id="main-menu" class="screen active">
+            <div class="header">
+                <h1 class="logo">QUIZDOM</h1>
+                <p class="tagline">Master Every Subject, Conquer Every Challenge</p>
+            </div>
+
+            <div class="glass-panel">
+                <h2 style="text-align: center; margin-bottom: 2rem; font-size: 2rem;">🎯 STANDALONE VERSION</h2>
+                <p style="text-align: center; color: var(--next-gen-color-secondary); margin-bottom: 2rem; font-size: 1.1rem;">
+                    This is a working version of QUIZDOM that runs entirely in your browser! No server needed.
+                    Enter the ultimate knowledge arena where intellect meets competition. Choose from diverse categories spanning Science, History, Technology, Arts, and more.
+                </p>
+                
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="showScreen('category-selection')">
+                        <i class="fas fa-play"></i> Start Quiz
+                    </button>
+                    <button class="nav-btn" onclick="showScreen('about')">
+                        <i class="fas fa-info-circle"></i> About
+                    </button>
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem; padding: 1rem; background: rgba(110, 231, 183, 0.1); border-radius: 10px;">
+                    <h4 style="color: var(--next-gen-accent); margin-bottom: 0.5rem;">✅ Working Features</h4>
+                    <p style="color: var(--next-gen-color-secondary); font-size: 0.9rem;">
+                        Interactive Quiz • Score Tracking • Timer • Sound Effects • Multiple Categories • Responsive Design
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category Selection Screen -->
+        <div id="category-selection" class="screen">
+            <div class="glass-panel">
+                <h2 style="text-align: center; margin-bottom: 2rem; font-size: 2rem;">Choose a Category</h2>
+                
+                <div class="categories-grid">
+                    <div class="category-card" onclick="startQuiz('science')">
+                        <div class="category-icon">
+                            <i class="fas fa-microscope"></i>
+                        </div>
+                        <div class="category-name">Science & Nature</div>
+                        <div class="category-description">Explore the wonders of physics, chemistry, biology</div>
+                    </div>
+                    
+                    <div class="category-card" onclick="startQuiz('history')">
+                        <div class="category-icon">
+                            <i class="fas fa-landmark"></i>
+                        </div>
+                        <div class="category-name">History</div>
+                        <div class="category-description">Journey through time from ancient to modern</div>
+                    </div>
+                    
+                    <div class="category-card" onclick="startQuiz('technology')">
+                        <div class="category-icon">
+                            <i class="fas fa-microchip"></i>
+                        </div>
+                        <div class="category-name">Technology</div>
+                        <div class="category-description">Programming, computing, digital innovation</div>
+                    </div>
+                    
+                    <div class="category-card" onclick="startQuiz('general')">
+                        <div class="category-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="category-name">General Knowledge</div>
+                        <div class="category-description">Mixed topics and interesting trivia</div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="nav-btn" onclick="showScreen('main-menu')">
+                        <i class="fas fa-arrow-left"></i> Back to Menu
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Screen -->
+        <div id="about" class="screen">
+            <div class="glass-panel">
+                <h2 style="text-align: center; margin-bottom: 2rem; font-size: 2rem;">
+                    <i class="fas fa-info-circle"></i> About QUIZDOM
+                </h2>
+                
+                <div style="max-width: 600px; margin: 0 auto; text-align: center;">
+                    <p style="margin-bottom: 1.5rem; font-size: 1.1rem; color: var(--next-gen-color-secondary);">
+                        QUIZDOM is an advanced quiz platform that transforms learning into an engaging competitive experience. This standalone version runs entirely in your browser!
+                    </p>
+                    
+                    <div style="margin: 2rem 0;">
+                        <h3 style="color: var(--next-gen-accent); margin-bottom: 1rem;">Features</h3>
+                        <ul style="text-align: left; color: var(--next-gen-color-secondary); line-height: 1.6;">
+                            <li>🧠 Multiple Knowledge Categories</li>
+                            <li>⚡ Interactive Question Interface</li>
+                            <li>📊 Real-time Score Tracking</li>
+                            <li>⏱️ Timer System with Visual Feedback</li>
+                            <li>🎨 Modern Glassmorphism Design</li>
+                            <li>📱 Fully Responsive Layout</li>
+                            <li>🔧 Works Without Internet After Loading</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="margin: 2rem 0;">
+                        <h3 style="color: var(--next-gen-accent); margin-bottom: 1rem;">Version</h3>
+                        <p style="color: var(--next-gen-color-secondary);">QUIZDOM Standalone v1.0.0</p>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="nav-btn" onclick="showScreen('main-menu')">
+                        <i class="fas fa-arrow-left"></i> Back to Menu
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // QUIZDOM Standalone JavaScript
+        
+        // Sample questions database
+        const questionsDatabase = {
+            science: [
+                {
+                    question: "What is the chemical symbol for gold?",
+                    options: ["Au", "Ag", "Fe", "Cu"],
+                    correct: 0,
+                    explanation: "Gold's chemical symbol is Au, derived from the Latin word 'aurum'."
+                },
+                {
+                    question: "Which planet is closest to the Sun?",
+                    options: ["Venus", "Earth", "Mercury", "Mars"],
+                    correct: 2,
+                    explanation: "Mercury is the closest planet to the Sun in our solar system."
+                },
+                {
+                    question: "What gas do plants absorb from the atmosphere?",
+                    options: ["Oxygen", "Nitrogen", "Carbon Dioxide", "Hydrogen"],
+                    correct: 2,
+                    explanation: "Plants absorb carbon dioxide during photosynthesis."
+                },
+                {
+                    question: "What is the hardest natural substance on Earth?",
+                    options: ["Gold", "Iron", "Diamond", "Titanium"],
+                    correct: 2,
+                    explanation: "Diamond is the hardest natural substance on Earth."
+                },
+                {
+                    question: "How many bones are in an adult human body?",
+                    options: ["206", "195", "220", "185"],
+                    correct: 0,
+                    explanation: "An adult human body has 206 bones."
+                }
+            ],
+            history: [
+                {
+                    question: "In which year did World War II end?",
+                    options: ["1944", "1945", "1946", "1947"],
+                    correct: 1,
+                    explanation: "World War II ended in 1945 with the surrender of Japan."
+                },
+                {
+                    question: "Who was the first President of the United States?",
+                    options: ["Thomas Jefferson", "John Adams", "George Washington", "Benjamin Franklin"],
+                    correct: 2,
+                    explanation: "George Washington was the first President of the United States."
+                },
+                {
+                    question: "Which ancient wonder of the world was located in Alexandria?",
+                    options: ["Hanging Gardens", "Lighthouse", "Colossus", "Mausoleum"],
+                    correct: 1,
+                    explanation: "The Lighthouse of Alexandria was one of the Seven Wonders of the Ancient World."
+                },
+                {
+                    question: "The Berlin Wall fell in which year?",
+                    options: ["1987", "1988", "1989", "1990"],
+                    correct: 2,
+                    explanation: "The Berlin Wall fell in 1989, marking the end of the Cold War era."
+                }
+            ],
+            technology: [
+                {
+                    question: "What does CPU stand for?",
+                    options: ["Central Processing Unit", "Computer Processing Unit", "Central Program Unit", "Computer Program Unit"],
+                    correct: 0,
+                    explanation: "CPU stands for Central Processing Unit, the main processor of a computer."
+                },
+                {
+                    question: "Which programming language is known as the 'language of the web'?",
+                    options: ["Python", "Java", "JavaScript", "C++"],
+                    correct: 2,
+                    explanation: "JavaScript is often called the 'language of the web' as it runs in web browsers."
+                },
+                {
+                    question: "What does 'www' stand for?",
+                    options: ["World Wide Web", "World Wide Website", "Web Wide World", "Website Wide World"],
+                    correct: 0,
+                    explanation: "WWW stands for World Wide Web."
+                },
+                {
+                    question: "Which company developed the iPhone?",
+                    options: ["Google", "Microsoft", "Apple", "Samsung"],
+                    correct: 2,
+                    explanation: "Apple developed and released the first iPhone in 2007."
+                }
+            ],
+            general: [
+                {
+                    question: "What is the capital of Australia?",
+                    options: ["Sydney", "Melbourne", "Canberra", "Perth"],
+                    correct: 2,
+                    explanation: "Canberra is the capital city of Australia."
+                },
+                {
+                    question: "Which is the largest ocean on Earth?",
+                    options: ["Atlantic", "Indian", "Arctic", "Pacific"],
+                    correct: 3,
+                    explanation: "The Pacific Ocean is the largest ocean on Earth."
+                },
+                {
+                    question: "How many sides does a hexagon have?",
+                    options: ["5", "6", "7", "8"],
+                    correct: 1,
+                    explanation: "A hexagon has 6 sides."
+                },
+                {
+                    question: "What is the smallest country in the world?",
+                    options: ["Monaco", "Vatican City", "San Marino", "Liechtenstein"],
+                    correct: 1,
+                    explanation: "Vatican City is the smallest country in the world."
+                }
+            ]
+        };
+
+        // Game state
+        let currentCategory = '';
+        let currentQuestions = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timeRemaining = 30;
+        let timerInterval = null;
+        let gameStartTime = null;
+
+        // Screen management
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        // Start quiz with selected category
+        function startQuiz(category) {
+            currentCategory = category;
+            currentQuestions = shuffleArray([...questionsDatabase[category]]).slice(0, 5);
+            currentQuestionIndex = 0;
+            score = 0;
+            gameStartTime = Date.now();
+            
+            showQuestionScreen();
+            playSound('start');
+        }
+
+        // Show question screen with current question
+        function showQuestionScreen() {
+            if (currentQuestionIndex >= currentQuestions.length) {
+                showResults();
+                return;
+            }
+
+            const question = currentQuestions[currentQuestionIndex];
+            
+            // Create question screen HTML
+            const questionScreen = `
+                <div class="glass-panel">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+                        <div style="background: linear-gradient(135deg, var(--next-gen-score-start), var(--next-gen-score-end)); padding: 1rem 2rem; border-radius: 15px; font-weight: 700; font-size: 1.2rem; color: var(--next-gen-bg-start);">
+                            <i class="fas fa-star"></i> Score: ${score}
+                        </div>
+                        <div id="timer-display" style="background: linear-gradient(135deg, var(--next-gen-warning-color), #f97316); padding: 1rem 2rem; border-radius: 15px; font-weight: 700; font-size: 1.2rem; color: white;">
+                            <i class="fas fa-clock"></i> <span id="timer">${timeRemaining}</span>s
+                        </div>
+                    </div>
+
+                    <div style="width: 100%; height: 8px; background: var(--next-gen-border); border-radius: 4px; overflow: hidden; margin: 1rem 0;">
+                        <div style="height: 100%; background: linear-gradient(90deg, var(--next-gen-accent), #34d399); width: ${((currentQuestionIndex + 1) / currentQuestions.length) * 100}%; transition: width 0.3s ease; border-radius: 4px;"></div>
+                    </div>
+
+                    <div style="background: var(--next-gen-glass-bg); backdrop-filter: blur(20px); border: 2px solid var(--next-gen-glass-border); border-radius: 20px; padding: 2rem; margin: 2rem 0; text-align: center;">
+                        <div style="color: var(--next-gen-accent); font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem;">
+                            Question ${currentQuestionIndex + 1} of ${currentQuestions.length}
+                        </div>
+                        <div style="font-size: 1.5rem; font-weight: 600; margin-bottom: 2rem; line-height: 1.4;">
+                            ${question.question}
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 2rem 0;" id="answers-grid">
+                            ${question.options.map((option, index) => `
+                                <button class="answer-btn" onclick="selectAnswer(${index})" style="background: var(--next-gen-glass-bg); border: 2px solid var(--next-gen-border); border-radius: 15px; padding: 1.5rem; color: var(--next-gen-color-primary); font-family: 'Exo 2', sans-serif; font-size: 1rem; font-weight: 500; cursor: pointer; transition: all 0.3s ease; text-align: left;">
+                                    <strong>${String.fromCharCode(65 + index)}.</strong> ${option}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <button class="nav-btn" onclick="showScreen('main-menu')">
+                            <i class="fas fa-home"></i> Back to Menu
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            // Create and show question screen
+            let questionScreenElement = document.getElementById('question-screen');
+            if (!questionScreenElement) {
+                questionScreenElement = document.createElement('div');
+                questionScreenElement.id = 'question-screen';
+                questionScreenElement.className = 'screen';
+                document.querySelector('.container').appendChild(questionScreenElement);
+            }
+            
+            questionScreenElement.innerHTML = questionScreen;
+            showScreen('question-screen');
+            
+            // Start timer
+            startTimer();
+        }
+
+        // Handle answer selection
+        function selectAnswer(selectedIndex) {
+            const question = currentQuestions[currentQuestionIndex];
+            const answerButtons = document.querySelectorAll('.answer-btn');
+            const isCorrect = selectedIndex === question.correct;
+
+            // Stop timer
+            clearInterval(timerInterval);
+
+            // Disable all buttons
+            answerButtons.forEach(btn => {
+                btn.style.pointerEvents = 'none';
+                btn.style.opacity = '0.7';
+            });
+
+            // Show correct/incorrect styling
+            if (isCorrect) {
+                answerButtons[selectedIndex].style.background = 'linear-gradient(135deg, rgba(34, 197, 94, 0.3), rgba(34, 197, 94, 0.1))';
+                answerButtons[selectedIndex].style.borderColor = 'var(--next-gen-success-color)';
+                answerButtons[selectedIndex].style.color = 'var(--next-gen-success-color)';
+                score += 10;
+                playSound('correct');
+                showNotification('Correct! +10 points', 'success');
+            } else {
+                answerButtons[selectedIndex].style.background = 'linear-gradient(135deg, rgba(239, 68, 68, 0.3), rgba(239, 68, 68, 0.1))';
+                answerButtons[selectedIndex].style.borderColor = 'var(--next-gen-error-color)';
+                answerButtons[selectedIndex].style.color = 'var(--next-gen-error-color)';
+                
+                answerButtons[question.correct].style.background = 'linear-gradient(135deg, rgba(34, 197, 94, 0.3), rgba(34, 197, 94, 0.1))';
+                answerButtons[question.correct].style.borderColor = 'var(--next-gen-success-color)';
+                answerButtons[question.correct].style.color = 'var(--next-gen-success-color)';
+                
+                playSound('incorrect');
+                showNotification('Incorrect answer', 'error');
+            }
+
+            // Show explanation and continue
+            setTimeout(() => {
+                showNotification(question.explanation, 'info');
+                setTimeout(() => {
+                    currentQuestionIndex++;
+                    showQuestionScreen();
+                }, 3000);
+            }, 1500);
+        }
+
+        // Timer functions
+        function startTimer() {
+            timeRemaining = 30;
+            updateTimerDisplay();
+            
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
+
+                if (timeRemaining <= 10) {
+                    document.getElementById('timer-display').style.animation = 'pulse 1s infinite';
+                }
+
+                if (timeRemaining <= 0) {
+                    timeUp();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const timerElement = document.getElementById('timer');
+            if (timerElement) {
+                timerElement.textContent = timeRemaining;
+            }
+        }
+
+        function timeUp() {
+            clearInterval(timerInterval);
+            showNotification("Time's up!", 'warning');
+            playSound('timeup');
+            
+            setTimeout(() => {
+                currentQuestionIndex++;
+                showQuestionScreen();
+            }, 2000);
+        }
+
+        // Show results
+        function showResults() {
+            const totalTime = Math.floor((Date.now() - gameStartTime) / 1000);
+            const accuracy = Math.round((score / (currentQuestions.length * 10)) * 100);
+            
+            const resultsScreen = `
+                <div class="glass-panel" style="text-align: center; padding: 2rem;">
+                    <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Quiz Complete!</h2>
+                    
+                    <div style="font-size: 4rem; font-weight: 900; background: linear-gradient(45deg, var(--next-gen-accent), #34d399); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin: 2rem 0; animation: scoreReveal 1s ease-out;">
+                        ${score}
+                    </div>
+                    
+                    <div style="font-size: 1.5rem; margin: 1rem 0; font-weight: 600;">
+                        ${getPerformanceMessage(accuracy)}
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 2rem 0;">
+                        <div style="background: var(--next-gen-glass-bg); border: 1px solid var(--next-gen-border); border-radius: 15px; padding: 1.5rem; text-align: center;">
+                            <div style="font-size: 2rem; font-weight: 700; color: var(--next-gen-accent); margin-bottom: 0.5rem;">${Math.floor(score / 10)}</div>
+                            <div style="color: var(--next-gen-color-secondary); font-size: 0.9rem;">Correct Answers</div>
+                        </div>
+                        <div style="background: var(--next-gen-glass-bg); border: 1px solid var(--next-gen-border); border-radius: 15px; padding: 1.5rem; text-align: center;">
+                            <div style="font-size: 2rem; font-weight: 700; color: var(--next-gen-accent); margin-bottom: 0.5rem;">${accuracy}%</div>
+                            <div style="color: var(--next-gen-color-secondary); font-size: 0.9rem;">Accuracy</div>
+                        </div>
+                        <div style="background: var(--next-gen-glass-bg); border: 1px solid var(--next-gen-border); border-radius: 15px; padding: 1.5rem; text-align: center;">
+                            <div style="font-size: 2rem; font-weight: 700; color: var(--next-gen-accent); margin-bottom: 0.5rem;">${totalTime}s</div>
+                            <div style="color: var(--next-gen-color-secondary); font-size: 0.9rem;">Time Taken</div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 2rem;">
+                        <button class="nav-btn" onclick="showScreen('main-menu')" style="margin: 0.5rem;">
+                            <i class="fas fa-home"></i> Main Menu
+                        </button>
+                        <button class="nav-btn" onclick="showScreen('category-selection')" style="margin: 0.5rem;">
+                            <i class="fas fa-redo"></i> Play Again
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            let resultsScreenElement = document.getElementById('results-screen');
+            if (!resultsScreenElement) {
+                resultsScreenElement = document.createElement('div');
+                resultsScreenElement.id = 'results-screen';
+                resultsScreenElement.className = 'screen';
+                document.querySelector('.container').appendChild(resultsScreenElement);
+            }
+            
+            resultsScreenElement.innerHTML = resultsScreen;
+            showScreen('results-screen');
+            playSound('finish');
+        }
+
+        // Utility functions
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function getPerformanceMessage(accuracy) {
+            if (accuracy >= 90) return "🎉 Outstanding! You're a true quiz master!";
+            if (accuracy >= 80) return "🌟 Excellent performance! Well done!";
+            if (accuracy >= 70) return "👍 Good job! Keep up the great work!";
+            if (accuracy >= 60) return "👌 Not bad! Room for improvement!";
+            return "💪 Keep practicing! You'll get better!";
+        }
+
+        function playSound(type) {
+            // Create simple audio feedback using Web Audio API
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                const frequencies = {
+                    select: 800,
+                    correct: 1000,
+                    incorrect: 300,
+                    start: 600,
+                    finish: 1200,
+                    timeup: 400
+                };
+                
+                oscillator.frequency.setValueAtTime(frequencies[type] || 500, audioContext.currentTime);
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.3);
+            } catch (error) {
+                console.log('Audio not available');
+            }
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            
+            const colors = {
+                success: 'var(--next-gen-success-color)',
+                error: 'var(--next-gen-error-color)',
+                warning: 'var(--next-gen-warning-color)',
+                info: 'var(--next-gen-accent)'
+            };
+            
+            notification.style.borderLeftColor = colors[type];
+            notification.style.borderLeftWidth = '4px';
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.animation = 'fadeOut 0.3s ease-out forwards';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Initialize app
+        console.log('🎯 QUIZDOM Standalone loaded successfully!');
+        
+        // Add keyboard support
+        document.addEventListener('keydown', (e) => {
+            if (document.getElementById('question-screen') && document.getElementById('question-screen').classList.contains('active')) {
+                const key = e.key.toLowerCase();
+                if (['a', 'b', 'c', 'd'].includes(key)) {
+                    const index = key.charCodeAt(0) - 97;
+                    const answerButtons = document.querySelectorAll('.answer-btn');
+                    if (answerButtons[index] && answerButtons[index].style.pointerEvents !== 'none') {
+                        selectAnswer(index);
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
